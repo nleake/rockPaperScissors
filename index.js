@@ -1,3 +1,11 @@
+const rock = document.querySelector('.rock');
+const paper = document.querySelector('.paper');
+const scissors = document.querySelector('.scissors');
+
+rock.addEventListener('click', playRound(rock));
+paper.addEventListener('click', playRound(paper));
+scissors.addEventListener('click', playRound(scissors));
+
 console.log('time to play rock paper scissors');
 const score = {
     player: 0,
@@ -61,6 +69,6 @@ console.log(playRound(playerSelection, computerSelection));
     console.log(score)
   }
 
-  game(5);
+//   game(5);
 
 

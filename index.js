@@ -1,74 +1,136 @@
-const rock = document.querySelector('.rock');
-const paper = document.querySelector('.paper');
-const scissors = document.querySelector('.scissors');
+const rockButton = document.querySelector('.rock');
+const paperButton = document.querySelector('.paper');
+const scissorsButton = document.querySelector('.scissors');
+const newGameButton = document.querySelector('.newGame');
 
-rock.addEventListener('click', playRound(rock));
-paper.addEventListener('click', playRound(paper));
-scissors.addEventListener('click', playRound(scissors));
+const scoreView = document.querySelector('.score');
+const cpuChoice = document.querySelector('.cpuChoice');
+const results = document.querySelector('.results');
 
-console.log('time to play rock paper scissors');
+const roundView = document.querySelector('#round');
+let playerScore = document.querySelector('#playerScore');
+let cpuScore = document.querySelector('#cpuScore');
+
+let gameOver = false;
+let round = 1;
 const score = {
     player: 0,
     cpu: 0,
 }
+
+rockButton.addEventListener('click', throwRock);
+paperButton.addEventListener('click', throwPaper);
+scissorsButton.addEventListener('click', throwScissors);
+newGameButton.addEventListener('click', newGame);
+
+function newGame() {
+    gameOver = false;
+    round = 1;
+    score.player = 0;
+    score.cpu = 0;
+    updateView();
+    clearResults();
+    rockButton.disabled = false;
+    paperButton.disabled = false;
+    scissorsButton.disabled = false;
+}
+
+function updateView() {
+    playerScore.innerText = score.player;
+    cpuScore.innerText = score.cpu;
+    roundView.innerText = round;
+}
+
+function clearResults() {
+    results.innerText = "";
+    cpuChoice.innerText = "";
+}
+
+
 function getPlayerChoice () {
     let playerSelection = prompt('what do you throw?').toLowerCase();
     return playerSelection;
 }
 
-function getComputerChoice () {
-    let choices = ["rock", "paper", "scissors"];
-  return choices[Math.floor(Math.random() * 3)];
+function throwRock() {
+    clearResults();
+    let computerSelection = computerThrow();
+    if (computerSelection === 'scissors') {
+        playerWins();
+    } else if (computerSelection === 'rock') {
+        tie();
+    } else {
+        computerWins();
+    }
 }
 
- function playRound(playerSelection, computerSelection) {
-    if (playerSelection === 'rock') {
-        if (computerSelection === 'rock'){ 
-            return 'tie, try again';
-        } else if (computerSelection === 'paper') {
-            score.cpu++;
-            return 'you lose';
-        } else if (computerSelection === 'scissors') {
-            score.player++;
-            return 'you win';
-        } else return 'uhhh, try again';
+function throwPaper() {
+    clearResults();
+    let computerSelection = computerThrow();
+    if (computerSelection === 'rock') {
+        playerWins();
+    } else if (computerSelection === 'paper') {
+        tie();
+    } else {
+        computerWins();
     }
-    if (playerSelection === 'paper') {
-        if (computerSelection === 'rock'){ 
-            score.player++;
-            return 'you win';
-        } else if (computerSelection === 'paper') {
-            return 'tie, try again';
-        } else if (computerSelection === 'scissors') {
-            score.cpu++;
-            return 'you lose';
-        } else return 'uhhh, try again';
+}
+
+function throwScissors() {
+    clearResults();
+    let computerSelection = computerThrow();
+    if (computerSelection === 'paper') {
+        playerWins();
+    } else if (computerSelection === 'scissors') {
+        tie();
+    } else {
+        computerWins();
     }
-    if (playerSelection === 'scissors') {
-        if (computerSelection === 'rock'){ 
-            score.cpu++
-            return 'you lose';
-        } else if (computerSelection === 'paper') {
-            score.player++
-            return 'you win';
-        } else if (computerSelection === 'scissors') {
-            return 'tie, try again';
-        } else return 'uhhh, try again';
+}
+
+function computerThrow () {
+    let choices = ["rock", "paper", "scissors"];
+    let compThrow = choices[Math.floor(Math.random() * 3)];
+    cpuChoice.innerText = `Computer throws ${compThrow}!`;
+    return compThrow;
+}
+
+
+function playerWins() {
+    round++;
+    score.player++;
+    results.innerText = 'You win this round, human.'
+    updateView();
+    checkWinner();
+}
+
+function computerWins() {
+    round++;
+    score.cpu++;
+    results.innerText = 'You lose this round, meatbag.'
+    updateView();
+    checkWinner();
+}
+
+function tie() {
+    round++;
+    results.innerText = 'This round is a tie.';
+    updateView();
+}
+
+function checkWinner() {
+    if (score.player >= 5) {
+        results.innerText = 'You have won the game. Humanity flourishes.'
+        disableButtons()
+    } else if (score.cpu >=5) {
+        results.innerText = 'You have lost the game. Machines triumph over mankind.'
+        disableButtons();
     }
-  }
+}
 
-  function game(rounds){
-
-    for (let index = 0; index < rounds; index++) {
-        let playerSelection = getPlayerChoice();
-        let computerSelection = getComputerChoice();
-        playRound();
-        console.log(`computer throws ${computerSelection}, you threw ${playerSelection}`)
-console.log(playRound(playerSelection, computerSelection));
-    }
-    console.log(score)
-  }
-
-//   game(5);
-
+function disableButtons() {
+    rockButton.disabled = true;
+    paperButton.disabled = true;
+    scissorsButton.disabled = true;
+}
 

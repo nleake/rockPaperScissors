@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>rock paper scissors</title>
-</head>
-<body>
-    <h1>Rock, Paper, Scissors</h1>
-    <p>Make your selection</p>
-
+  </head>
+  <body>
+    <h1>rock, paper, scissors</h1>
+    <p>make your selection</p>
+    
+    <div class="score">
+      <h2>round <span id="round">1</span></h2>
+      <h3>player score <span id="playerScore">0</span></h3>
+      <h3>cpu score <span id="cpuScore">0</span></h3>
+    </div>
+    
     <button class="rock">rock</button>
     <button class="paper">paper</button>
     <button class="scissors">scissors</button>
 
-    <div class="results">
-        
-    </div>
+
+    <div class="cpuChoice"></div>
+    <div class="results"></div>
+    <button class="newGame">new game</button>
 
     <script src="index.js"></script>
-</body>
+  </body>
 </html>
